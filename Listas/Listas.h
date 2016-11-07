@@ -49,15 +49,12 @@ class ListaSE{
 			this->size=0;
 		}
 		
-		
 		/*
 		 Agrega un elemento T al final o al inicio de la lista.
 		 Utilizar true para add al final
 		 Predefinido add al inicio
 		*/
-		
-		
-		void add(T e,bool end=false){
+		void Add(T e,bool end=false){
 			
 			if(vacia()){
 				addVacia(e);
@@ -80,11 +77,12 @@ class ListaSE{
 		
 				
 		}
+		
 		/*
 		 Agrega un elemento T despues de un elemento de la lista.
 		 Si no lo encuentra lo agrega al final
 		*/
-		void add(T e,T des,bool a){
+		void Add(T e,T des,bool a){
 			if(vacia()){
 				addVacia(e);
 				return;
@@ -94,12 +92,13 @@ class ListaSE{
 			
 			
 		}
+		
 		/*
 		 Agrega un elemento T despues de una posicion dada.
 		 Si la posicion es mayor a this->size lo agrega al final
 		 Si la posicion es negativa lo agrega al inicio
 		*/
-		void add(T e,int Pos){
+		void Add(T e,int  Pos){
 			
 			if(vacia()){
 				addVacia(e);
@@ -129,9 +128,6 @@ class ListaSE{
 			delete aux2;
 		}
 		
-	
-	
-		
 		/*
 			Muestra Los elementos de la lista 
 		*/
@@ -142,13 +138,97 @@ class ListaSE{
 				prueba=prueba->siguiente();	
 			}
 		}
-	
+		
+		/*
+			Identifica si la pila esta vacia
+		*/
 		bool vacia(){
 			return !(this->size);
 		}
+		
+		/*
+			Muestra el tamanio de la lista
+		*/
 		unsigned int dim(){
 			return this->size;
 		}
+		
+		/*
+		
+		
+		*/
+		void Delete(int pos=0 ){
+			
+			if(pos<0 ||  pos>this->size-1 )	
+				return;
+			
+					
+			Nodo<T>*aux=this->cabeza;
+			if(!pos){
+				
+				this->cabeza=this->cabeza->siguiente();
+				delete aux;
+				this->size--;
+				return;				
+			}
+			
+			
+			
+			
+			
+			aux=this->cabeza;
+			for(int i=0;i<pos-1;i++){
+				aux=aux->siguiente();				
+			}
+			Nodo<T>*aux2=aux->siguiente();
+			aux->siguiente(aux2->siguiente());
+			if(this->size-1==pos)
+			this->cola=aux;
+			
+			delete aux2;
+			this->size--;
+			
+
+		}	
+		
+		
+		T Get(int pos=0){
+			T obj;
+			if(pos<0 ||  pos>this->size-1 )	
+				return obj;
+			
+			
+			
+			
+			
+			
+			if(!pos)
+			return this->cabeza->datNodo();
+			
+			if(this->size-1==pos)
+			return this->cola->datNodo();
+			Nodo<T> *aux=this->cabeza;
+
+			for(int i=0;i<pos;i++)
+			aux=aux->siguiente();
+			
+			
+			
+			return aux->datNodo();
+			
+			
+			
+			
+			
+			
+		}
+		
+		void colear(){
+			std::cout<<this->cola->datNodo()<<std::endl;
+		}
+		
+		
+		
 		
 	
 };
