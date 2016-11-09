@@ -19,11 +19,11 @@ public:
 		~ColaC(){
 			delete []V;
 		}
-		void Add(T obj){
+		void Put(T obj){
 			if(ingresados==tam)
 				return;
 
-			this->V[ (inicial +(ingresados))%tam]=obj;
+			this->V[ (inicial +ingresados)%tam]=obj;
 			(ingresados++);
 
 		}
@@ -31,7 +31,7 @@ public:
 		int size(){
 			return this->tam;
 		}
-		int Get(T &obj){
+		int Extract(T &obj){
 	
 
 			if(ingresados==0)
@@ -44,7 +44,7 @@ public:
 		return 1;
 		}
 
-		void printData(){
+		void Visualizar(){
 			if(ingresados==0)
 			return;
 			
@@ -186,12 +186,23 @@ class Cola{
 		void Extract(T &obj){
 			if(!cant)
 			return;
-			obj=this->v[--this->cant];
+			obj=this->v[0];
+			for(int i=0;i<cant;i++)
+			this->v[i]=this->v[i+1];
 			
+			
+			cant--;
 		}
 		
 		
-		
+		void Visualizar(){
+			if(!cant)
+			return;
+			
+			for(int i=cant;i>=0;i--)
+			std::cout<<this->v[i]<<std::endl;
+			
+		}
 		
 	
 	

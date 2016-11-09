@@ -5,14 +5,15 @@
 
 int main(){
 	
-	ColaN<int> g;
+	ColaC<int> g(5);
 	int h;
 	
 	g.Put(60);
 	g.Put(80);
 	g.Extract(h);
-	g.Visualizar();
-
+	g.Put(90);
+//	g.Visualizar();
+	std::cout<<h;
 	
 	return 0;
 }
