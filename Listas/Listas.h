@@ -289,6 +289,140 @@ class ListaSEO:public ListaSE<T> {
 
 template <typename T>
 class ListaDE{
+	private:
+		Nodo<T> *cabeza;//Apunta al inicio de la lista
+		Nodo<T> *cola;//Apunta al ultimo elemento de la lista
+		size_t size;//Indica la cantidad de elementos de la lista
+		
+		void addF(T e){
+			Nodo<T>*aux=new Nodo<T>(e,this->cabeza);
+			this->cabeza->anterior(aux);
+			this->cabeza=aux;
+			this->size++;
+			
+		}
+		void addE(T e){
+			Nodo<T>*aux=new Nodo<T>(e,0,this->cola);
+			
+			this->cola->siguiente(aux);
+			this->cola=this->cola->siguiente();
+			this->size++;
+		}
+		void addV(T e){
+			Nodo<T>*aux=new Nodo<T>(e);
+			this->cabeza=aux;
+			this->cola=aux;
+			this->size++;
+				
+		}
+		
+		
+	public:
+		
+		ListaDE(){
+			this->cabeza=this->cola=0;
+			size=0;
+				
+		}
+		
+		
+		bool Vacia(){
+			return this->size==0;
+		}
+		int TAM(){
+			return this->size;
+		}
+		
+		void Add(T e,bool first =true){
+		
+			if(Vacia()){
+			
+				this->addV(e);
+				return;	
+			}
+			switch(first){
+				case true:{
+					this->addF(e);
+					break;
+				}
+				case false:{
+					this->addE(e);
+					break;
+				}
+					
+		
+			}
+		}
+		
+		void Put(T e,int pos){
+			if(Vacia()){
+				this->addV(e);	
+				return;
+			}
+			if(!pos){
+				this->addF(e);
+				return;
+			}
+			if(pos>=size){
+				this->addE(e);
+				return;
+			}
+			
+			Nodo<T> *aux=new Nodo<T>(e);
+			Nodo<T> *mov=this->cabeza;
+			for(int i=0;i<pos-1;i++){
+				mov=mov->siguiente();
+				
+			}
+			aux->anterior(mov);
+			aux->siguiente(mov->siguiente());
+			Nodo<T> *aux2=mov->siguiente();
+			aux2->anterior(aux);
+			mov->siguiente(aux);
+			size++;
+			
+			
+			
+		}
+		
+		void Extract(T &obj,int pos=0){
+			if(pos<0 || pos>=size)
+			return;
+			
+			
+			Nodo<T> *aux=this->cabeza;
+			for(int i=0;i<pos;i++){
+				aux=aux->siguiente();
+			}
+			obj=aux->datNodo();
+			
+		}
+		
+		
+		void Delwte(int pos=0){
+			
+		}
+		
+		
+		void Visualizar(){
+			int k=0;
+			Nodo<T>*aux=this->cabeza;
+			while(true){
+				
+				std::cout<<k<<")"<<aux->datNodo()<<std::endl;
+				k++;
+				if(aux->siguiente()==0)
+				break;
+				
+				
+				aux=aux->siguiente();
+				
+				
+			}
+			
+			
+			
+		}
 	
 };
 

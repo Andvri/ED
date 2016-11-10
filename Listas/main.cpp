@@ -58,13 +58,15 @@ class Cedula{
 
 int main(){
 	
-	ListaSEO<int> g;
-	g.Add(9);
-	g.Add(8);
-	g.Add(15);
-	g.Add(12);
-
-	g.visualizar();
+	ListaDE<int> g;
+	g.Add(9,false);
+	g.Add(8,false);
+	g.Add(15,false);
+	g.Add(66,false);
+	g.Add(32,false);
+	g.Add(55,false);
+	g.Add(12,false);
+	g.Visualizar();
 
 	return 0;
 }
