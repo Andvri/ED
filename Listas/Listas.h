@@ -15,11 +15,11 @@ class ListaCDE{
 
 template <typename T>
 class ListaSE{
-	private:
+	protected:
 		Nodo<T> *cabeza;//Apunta al inicio de la lista
 		Nodo<T> *cola;//Apunta al ultimo elemento de la lista
 		size_t size;//Indica la cantidad de elementos de la lista
-		
+
 		
 		
 		
@@ -44,9 +44,10 @@ class ListaSE{
 		/*
 		Constructor Base para lista vacia
 		*/
-		ListaSE(){
+		ListaSE(bool band=true){
 			this->cabeza=this->cola=0;
 			this->size=0;
+		
 		}
 		
 		/*
@@ -233,7 +234,55 @@ class ListaSE{
 	
 };
 
-
+template <typename T>
+class ListaSEO:public ListaSE<T> {
+	private:
+	
+	public:
+		void Add(T e,bool end=false){
+			
+			if(this->vacia() ){
+				this->addVacia(e);
+				return;
+			}
+			Nodo<T> *aux=this->cabeza;
+			Nodo<T> *aux2= new Nodo<T>(e);
+			
+			if(this->cabeza->datNodo()>=aux2->datNodo()){
+				this->addF(e);
+				return;
+			}
+			
+			while(true){
+				if(aux->siguiente()!=0 ){
+					if(aux->siguiente()->datNodo()>=aux2->datNodo() ){
+						aux2->siguiente(aux->siguiente());
+						aux->siguiente(aux2);
+						this->size++;
+						return;
+					}else
+						aux=aux->siguiente();
+					
+					
+				}else
+					break;
+				
+				
+				
+			}
+			this->addE(e);
+			
+			
+			
+			
+		
+				
+		}
+		
+		
+	
+	
+};
 
 
 

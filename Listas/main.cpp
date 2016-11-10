@@ -58,11 +58,13 @@ class Cedula{
 
 int main(){
 	
-	ListaSE<Cedula> F;
-Cedula GE(22,"Escalante Delgado","Guadalupe de Valle","Soltera","06/04/1994","18/09/2015","09/2025",'V',24820359);
-	F.Add(GE);
-	F.visualizar();
-	std::cout<<F.Get(4)<<std::endl;
-	std::cout<<GE<<std::endl;
+	ListaSEO<int> g;
+	g.Add(9);
+	g.Add(8);
+	g.Add(15);
+	g.Add(12);
+
+	g.visualizar();
+
 	return 0;
 }
