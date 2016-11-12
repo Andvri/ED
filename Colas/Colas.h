@@ -134,7 +134,9 @@ class ColaN{
 			if(!size)
 			return;
 			obj=this->cabeza->datNodo();
+			Nodo<T> *aux=this->cabeza;
 			this->cabeza=this->cabeza->siguiente();
+			delete aux;
 			size--;
 			
 		}
@@ -142,7 +144,11 @@ class ColaN{
 			return this->size;
 		}
 		
-		
+		void Delete(){
+			T obj;
+			while(this->cabeza!=0)
+			this->Extract(obj);
+		}		
 		
 
 		

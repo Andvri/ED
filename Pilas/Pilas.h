@@ -137,6 +137,13 @@ class PilaD{
 			return this->size;
 		}
 		
+		void Delete(){
+			T obj;
+			while(this->cabeza!=0){
+				Extract(obj);
+			}
+			
+		}
 			
 		void Visualizar(){
 			int i=0;
