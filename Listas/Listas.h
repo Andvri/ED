@@ -61,7 +61,7 @@ class ListaSE{
 				addVacia(e);
 				return;
 			}
-			if(this->Buscar(e))
+			if(this->Buscar(e)!=-1)
 			return;
 			
 			switch(end){
@@ -108,7 +108,7 @@ class ListaSE{
 				return;
 			}
 			
-			if(this->Buscar(e))
+			if(this->Buscar(e)!=-1)
 			return;
 			
 			if(Pos<=0){
@@ -203,11 +203,6 @@ class ListaSE{
 			if(pos<0 ||  pos>this->size-1 )	
 				return obj;
 			
-			
-			
-			
-			
-			
 			if(!pos)
 			return this->cabeza->datNodo();
 			
@@ -218,14 +213,7 @@ class ListaSE{
 			for(int i=0;i<pos;i++)
 			aux=aux->siguiente();
 			
-			
-			
 			return aux->datNodo();
-			
-			
-			
-			
-			
 			
 		}
 		
@@ -233,21 +221,21 @@ class ListaSE{
 			std::cout<<this->cola->datNodo()<<std::endl;
 		}
 		
-		bool Buscar(T bus){
+		int Buscar(T bus){
 			if(this->repe)
-			return false;
+			return -1;
 			
 			Nodo<T> *prueba=this->cabeza;
 			for(int a=0;a<size;a++){
 				if(bus==prueba->datNodo()){
 
-					return true;
+					return a;
 				}
 					prueba=prueba->siguiente();	
 				
 			}
 			
-			return false;
+			return -1;
 		}
 		
 		

@@ -1,23 +1,14 @@
 #include "Arboles.h"
-
+#include "Grafos.h"
 
 
 
 
 int main(){
-	ArbolBinarioB<int> b;
-	
-	
-	b.Put(3);
-	b.Put(-7);
-	b.Put(47);
-	b.Put(1);
-	b.Put(20);
-	
-	b.Put(0);
-	b.Put(49);
-	b.Imprimir();
-	
-	
+	Grafo<char> l(false,false);
+	l.AddVertice('F');
+	l.AddVertice('A');
+	l.VerVertices();
+	l.AddArista('A','A',4);
 	return 0;
 }
