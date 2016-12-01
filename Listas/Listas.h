@@ -19,7 +19,7 @@ class ListaSE{
 		Nodo<T> *cabeza;//Apunta al inicio de la lista
 		Nodo<T> *cola;//Apunta al ultimo elemento de la lista
 		size_t size;//Indica la cantidad de elementos de la lista
-
+		bool  repe;
 		
 		
 		
@@ -47,7 +47,7 @@ class ListaSE{
 		ListaSE(bool band=true){
 			this->cabeza=this->cola=0;
 			this->size=0;
-		
+			this->repe=band;
 		}
 		
 		/*
@@ -61,6 +61,8 @@ class ListaSE{
 				addVacia(e);
 				return;
 			}
+			if(this->Buscar(e))
+			return;
 			
 			switch(end){
 				case false:{
@@ -105,6 +107,9 @@ class ListaSE{
 				addVacia(e);
 				return;
 			}
+			
+			if(this->Buscar(e))
+			return;
 			
 			if(Pos<=0){
 				addF(e);
@@ -228,7 +233,22 @@ class ListaSE{
 			std::cout<<this->cola->datNodo()<<std::endl;
 		}
 		
-		
+		bool Buscar(T bus){
+			if(this->repe)
+			return false;
+			
+			Nodo<T> *prueba=this->cabeza;
+			for(int a=0;a<size;a++){
+				if(bus==prueba->datNodo()){
+
+					return true;
+				}
+					prueba=prueba->siguiente();	
+				
+			}
+			
+			return false;
+		}
 		
 		
 	
