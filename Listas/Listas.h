@@ -39,7 +39,22 @@ class ListaSE{
 			this->cola=this->cola->siguiente();
 			this->size++;
 		}
-		
+		void generarNodos(int tam){
+			this->cabeza=new Nodo<T>();
+			Nodo<T> *aux=this->cabeza;
+			for(int i=0;i<tam;i++){
+				aux->siguiente(new Nodo<T>());
+				aux=aux->siguiente();
+			}
+		}
+		void generarNodos(int tam,T obj){
+			this->cabeza=new Nodo<T>(obj);
+			Nodo<T> *aux=this->cabeza;
+			for(int i=0;i<tam;i++){
+				aux->siguiente(new Nodo<T>(obj));
+				aux=aux->siguiente();
+			}
+		}
 	public:
 		/*
 		Constructor Base para lista vacia
@@ -47,6 +62,19 @@ class ListaSE{
 		ListaSE(bool band=true){
 			this->cabeza=this->cola=0;
 			this->size=0;
+			this->repe=band;
+		}
+		
+		ListaSE(int size,bool band=true){
+			this->cabeza=this->cola=0;
+			this->size=size;
+			this->generarNodos(size);
+			this->repe=band;
+		}
+		ListaSE(int size,T obj,bool band=true){
+			this->cabeza=this->cola=0;
+			this->size=size;
+			this->generarNodos(size,obj);
 			this->repe=band;
 		}
 		
@@ -101,6 +129,25 @@ class ListaSE{
 		 Si la posicion es mayor a this->size lo agrega al final
 		 Si la posicion es negativa lo agrega al inicio
 		*/
+		void Put(int pos,T obj){
+			
+			if(vacia()){
+				return;
+			}
+			if(pos>=this->size || pos<0 )
+			return;
+			
+			
+			Nodo<T>*aux=this->cabeza;
+			for(int i=0;i<pos;i++)
+			aux=aux->siguiente();
+			
+			
+			aux->datNodo(obj);
+			
+			
+		}
+		
 		void Add(T e,int  Pos){
 			
 			if(vacia()){
@@ -140,7 +187,9 @@ class ListaSE{
 		void visualizar(){
 			Nodo<T> *prueba=this->cabeza;
 			for(int a=0;a<size;a++){
-				std::cout<<(a)<<"-"<<prueba->datNodo()<<std::endl;
+				if(a%10==0)
+				std::cout<<std::endl;
+				std::cout<<(a)<<")"<<prueba->datNodo()<<" ";
 				prueba=prueba->siguiente();	
 			}
 		}
@@ -175,6 +224,7 @@ class ListaSE{
 				this->cabeza=this->cabeza->siguiente();
 				delete aux;
 				this->size--;
+
 				return;				
 			}
 			
@@ -198,16 +248,14 @@ class ListaSE{
 		}	
 		
 		
-		T Get(int pos=0){
+		T Get(int pos=0) const{
 			T obj;
-			if(pos<0 ||  pos>this->size-1 )	
+			if(pos<0 ||  pos>=this->size )	
 				return obj;
 			
 			if(!pos)
 			return this->cabeza->datNodo();
 			
-			if(this->size-1==pos)
-			return this->cola->datNodo();
 			Nodo<T> *aux=this->cabeza;
 
 			for(int i=0;i<pos;i++)
@@ -220,6 +268,25 @@ class ListaSE{
 		void colear(){
 			std::cout<<this->cola->datNodo()<<std::endl;
 		}
+		
+		T* getArray()const{
+				T *array;
+				array=new T[this->size];
+				Nodo<T>*aux=this->cabeza;
+				
+				for(int i=0;i<this->size;i++){
+					array[i]=aux->datNodo();	
+					aux=aux->siguiente();
+					
+				}
+				return array;
+		}
+		
+		
+		
+		
+		
+		
 		
 		int Buscar(T bus){
 			if(this->repe)

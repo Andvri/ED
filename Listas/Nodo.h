@@ -7,6 +7,9 @@ class Nodo{
 		Nodo<T> *sig;
 		Nodo<T> *ant;
 	public:
+		Nodo(){
+			this->sig=this->ant=0;
+		}
 		Nodo(T t){
 			this->dat=t;
 			this->sig=this->ant=0;
@@ -18,6 +21,9 @@ class Nodo{
 		}
 		T datNodo()const{
 		return this->dat;
+		}
+		void datNodo(T obj){
+			this->dat=obj;
 		}
 		
 		Nodo<T>* anterior(){

@@ -54,10 +54,10 @@ class Cedula{
 };
 
 
+/*
 
 
-int main(){
-	
+
 	ListaSE<int> g(true);
 	g.Add(9);
 	g.Add(8);
@@ -68,9 +68,59 @@ int main(){
 	g.Add(55);
 	g.Add(55);
 	g.Add(12);
-		g.visualizar();
-
 	
+	
+	
+	g.Put(20,255);
+//		g.visualizar();
 
+	ListaSE<char> lo(7,'h',true);
+	
+	//lo.Delete(4);
+//	lo.visualizar();
+	char *a=lo.getArray();
+	for(int i=0;i<7;i++)
+	std::cout<<a[i]<<std::endl;
+	
+	
+	
+	
+	
+	
+	//////////////////////////
+	for(int i=0;i<5;i++){
+		std::cout<<i<<")"<<std::endl;
+		Aristas->Put(i,camino );
+	}
+	
+	
+*/
+
+int main(){
+	
+	const int MAX=50;
+	ListaSE< ListaSE<float>* > *Aristas;
+	ListaSE<float> *camino=new ListaSE<float>(MAX,(float)9);
+	
+	Aristas= new ListaSE< ListaSE<float> *>(MAX,camino);
+	std::cout<<" TAmaño de Aristas "<< Aristas->dim()<<std::endl;
+	
+	
+	
+	
+	ListaSE<float>*p;
+	for(int i=0;i<MAX;i++){
+		std::cout<<i<<")"<<std::endl;
+		p=Aristas->Get(i);
+		p->visualizar();	
+		std::cout<<std::endl;
+	}
+	
+	
+	
+	
+	
+	
+	
 	return 0;
 }
