@@ -54,6 +54,25 @@ class Cedula{
 };
 
 
+typedef float* carril;
+int main(){
+	const int MAX=20;
+	
+	ListaSE< ListaSE<float>* > *Aristas;
+	ListaSE<float> *camino=new ListaSE<float>();
+	camino->reDimensionar( (float(88)) ,MAX+1 );
+	std::cout<<(camino)<<std::endl;
+	camino->Put( MAX ,(float(98)) );
+	carril putaprueba=camino->getArray();
+	std::cout<<putaprueba[20]<<std::endl;
+//	camino->visualizar();
+
+	return 0;
+}
+
+
+
+
 /*
 
 
@@ -94,18 +113,28 @@ class Cedula{
 	}
 	
 	
-*/
-
-int main(){
 	
-	const int MAX=50;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	ListaSE< ListaSE<float>* > *Aristas;
 	ListaSE<float> *camino=new ListaSE<float>(MAX,(float)9);
 	
 	Aristas= new ListaSE< ListaSE<float> *>(MAX,camino);
 	std::cout<<" TAmaño de Aristas "<< Aristas->dim()<<std::endl;
-	
-	
+	carril *poder;
+	void *B=poder;
+	void *A=Aristas;
 	
 	
 	ListaSE<float>*p;
@@ -122,5 +151,15 @@ int main(){
 	
 	
 	
-	return 0;
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+*/
+

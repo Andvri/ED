@@ -19,6 +19,11 @@ class Nodo{
 			this->sig=sig;
 			this->ant=ant;
 		}
+		Nodo(Nodo<T> *sig,Nodo<T> *ant=0){
+		
+			this->sig=sig;
+			this->ant=ant;
+		}
 		T datNodo()const{
 		return this->dat;
 		}

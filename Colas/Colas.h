@@ -150,8 +150,12 @@ class ColaN{
 			this->Extract(obj);
 		}		
 		
-
+		bool Vacia(){
+			return this->TAM()==0;
+		}
 		
+		
+	
 		
 		
 };

@@ -22,10 +22,19 @@ class ListaSE{
 		bool  repe;
 		
 		
-		
+		void addVacia(){
+			this->cabeza=new Nodo<T>();
+			this->cola=this->cabeza;this->size++;
+			
+		}
 		void addVacia(T e){
 			this->cabeza=new Nodo<T>(e);
 				this->cola=this->cabeza;this->size++;
+			
+		}
+		void addF(){
+			this->cabeza=new Nodo<T>(this->cabeza);
+			this->size++;
 			
 		}
 		void addF(T e){
@@ -42,7 +51,7 @@ class ListaSE{
 		void generarNodos(int tam){
 			this->cabeza=new Nodo<T>();
 			Nodo<T> *aux=this->cabeza;
-			for(int i=0;i<tam;i++){
+			for(int i=0;i<tam-1;i++){
 				aux->siguiente(new Nodo<T>());
 				aux=aux->siguiente();
 			}
@@ -50,7 +59,7 @@ class ListaSE{
 		void generarNodos(int tam,T obj){
 			this->cabeza=new Nodo<T>(obj);
 			Nodo<T> *aux=this->cabeza;
-			for(int i=0;i<tam;i++){
+			for(int i=0;i<tam-1;i++){
 				aux->siguiente(new Nodo<T>(obj));
 				aux=aux->siguiente();
 			}
@@ -70,6 +79,13 @@ class ListaSE{
 			this->size=size;
 			this->generarNodos(size);
 			this->repe=band;
+		}
+		ListaSE(const T*v,int size,bool band=true){
+			this->cabeza=this->cola=0;
+			
+			this->repe=band;
+			for(int i=0;i<size;i++)
+			this->Add(v[i],true);
 		}
 		ListaSE(int size,T obj,bool band=true){
 			this->cabeza=this->cola=0;
@@ -108,7 +124,42 @@ class ListaSE{
 		
 				
 		}
+		void reDimensionar(int j=1){
+			if(this->cabeza==0){
+			this->cabeza=new Nodo<T>();
+			this->size++;
+			j--;
+			}
+			Nodo<T> *aux=this->cabeza;
+			for(int i=1;i<this->size;i++){
+				aux=aux->siguiente();
+			}
+			for(int i=0;i<j;i++){
+				aux->siguiente(new Nodo<T>());
+				this->size++;
+				aux=aux->siguiente();
+			}
+			
+		}
 		
+		void reDimensionar(T cop,int j=1){
+			if(this->cabeza==0){
+			this->cabeza=new Nodo<T>(cop);
+			this->size++;
+			j--;
+			}
+			Nodo<T> *aux=this->cabeza;
+			for(int i=1;i<this->size;i++){
+				aux=aux->siguiente();
+			}
+			for(int i=0;i<j;i++){
+				aux->siguiente(new Nodo<T>(cop));
+				this->size++;
+				aux=aux->siguiente();
+			}
+			
+			
+		}		
 		/*
 		 Agrega un elemento T despues de un elemento de la lista.
 		 Si no lo encuentra lo agrega al final
@@ -305,7 +356,53 @@ class ListaSE{
 			return -1;
 		}
 		
+	friend std::ostream& operator << (std::ostream &o,const ListaSE<T> &p)
+	{
+    Nodo<T> *aux=p.cabeza;
+    int i=0;
+	while(aux!=0){
+    	if(i%10==0 && i!=0)
+    	o<<"\n";
+    	
+		o<<i<<")"<<aux->datNodo()<<"\n";
+    	aux=aux->siguiente();
+    	i++;
+	}
+	
+	
+    return o;
+	}
+	
+	friend std::ostream& operator << (std::ostream &o,const ListaSE<T> *p)
+	{
+		int i=0;
+    Nodo<T> *aux=p->cabeza;
+    while(aux!=0){
+    	if(i%10==0 && i!=0)
+    	o<<"\n";
+    	
+		o<<i<<")"<<aux->datNodo()<<"\n";
+    	aux=aux->siguiente();
+	i++;
+	}
+	
+	
+    return o;
+	}
 		
+	ListaSE<T> & operator =(const ListaSE<T> &a){
+				for(int i =0;i<a.size;i++){
+					this->Add(a.Get(i),false);	
+				}
+			return *this;
+		}
+
+	
+	
+	
+	
+	
+	
 	
 };
 
