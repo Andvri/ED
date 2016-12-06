@@ -256,6 +256,7 @@ class Arista{
 template <typename T,typename U>
 class GrafoL{
 	typedef ListaSE< Arista<T,U> > ListaAristas;
+	typedef U* Carril;
 	private:
 		ListaSE<T> *Vertices;
 		ListaSE< ListaAristas* > *Aristas;
@@ -311,14 +312,14 @@ class GrafoL{
 			this->Vertices->Add(ver,true);
 			this->Aristas->Add(new ListaAristas(false),true);
 		}	
-		void AddArista(T In,T Ll,bool Dir=true,U Peso=1){
+		void AddArista(T In,T Ll,bool NoDir=true,U Peso=1){
 			int I=this->Vertices->Buscar(In);
 			int D=this->Vertices->Buscar(Ll);
 			if(I==-1 || D==-1)
 			throw "Almenos un vertice no Existe";
 			ListaAristas *w=LAristas(In);
 			w->Add( *(new Arista<T,U>(Ll,Peso)),true);
-			if(Dir){
+			if(NoDir){
 				AddArista(Ll,In,false,Peso);
 			}			
 		} 
@@ -395,13 +396,69 @@ class GrafoL{
 		void AlgoritmoFloyd(T partida){
 			
 		}
-		void AlgoritmoWarshall(T partida){
+		int ** AlgoritmoWarshall(){
+			int **mB=this->MBooleana();
+			  for (int k = 0; k < this->Vertices->dim(); k++)
+   				 for (int i = 0; i < this->Vertices->dim(); i++)
+    				  for (int j = 0; j < this->Vertices->dim(); j++)
+    				        if (mB[i][k] * mB[k][j])
+          							mB[i][j]=1;
+			return mB;
 			
 		}
-		void AlgoritmoDijkstra(T partida){
+		U AlgoritmoDijkstra(T partida,T destino, PilaD<T> *p=0){
+				int NVertices=this->Vertices->dim();
+				int posI=this->Vertices->Buscar(partida);
+				int posD=this->Vertices->Buscar(destino);
+				if(posI==-1 || posD==-1)
+				throw "No se encuentra un vertice";
+				bool *VecBool=new bool[NVertices];
+				for(int i=0;i<NVertices;i++){
+					VecBool[i]=false;
+					
+				}
+				VecBool[posI]=true;
+				U ret=0;
+				p->Put(partida);
+				ListaAristas *w=this->LAristas(Vertices->Get(posI));
+				for(int k=0;k<NVertices;k++){
+				
+					
+				
+				
+				
+				
+				
+					
+				}
+			
+			
+			
+			
+			
+				return ret;
+		}
+		//Retorna una matriz de adyacencia Booleana todo num diferente de cero lo vuelve 1
+		int ** MBooleana(){
+			int **p=new int*[this->Vertices->dim()];
+			for(int i=0;i<this->Vertices->dim();i++)
+				p[i]=new int[this->Vertices->dim()];
+				
+				
+			U**mA=this->MAdyacencias();
+				
+			
+			  for (int i = 0; i < this->Vertices->dim(); i++)
+    			 for (int j = 0; j <  this->Vertices->dim(); j++)
+						p[i][j]=(this->Adyacente(this->Vertices->Get(i),this->Vertices->Get(j))>0)?1:0;
+			
+			
+			return p;
+			
+			
 			
 		}
-		
+		//Retorna un booleano con la condicion de si el grafo es conexo, utiliza el recorrido para determinar si todos los nodos estan conectados
 		bool EsConexo(){
 			bool *c=new bool[this->Vertices->dim()];
 			
@@ -423,11 +480,32 @@ class GrafoL{
 			}
 			
 			ListaAristas *w=this->Aristas->Get(posIn);
-			int p=w->Buscar(Ll);
+			int p=w->Buscar( *(new Arista<T,U>(Ll,0)) );
 			
 			
 			return (p!=-1)? (w->Get(p)).Distancia:0;
 			
+		}
+		Carril *MAdyacencias(bool Infinito=false){
+			Carril *aux=new Carril[this->Vertices->dim()];
+			for(int i=0;i<this->Vertices->dim();i++)
+					aux[i]= new U[this->Vertices->dim()];
+					
+					
+					
+			for(int i=0;i<this->Vertices->dim();i++){
+				for(int j=0;j<this->Vertices->dim();j++){
+					T ida=this->Vertices->Get(i);
+					T ll=this->Vertices->Get(j);
+					
+					
+					aux[i][j]=this->Adyacente(ida,ll);
+					if(Infinito && aux[i][j]==0){
+						aux[i][j]=(U)INFINITO;
+					}
+				}				
+			}
+			return aux;
 		}
 		
 };

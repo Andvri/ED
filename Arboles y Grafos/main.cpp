@@ -6,7 +6,33 @@
 
 
 int main(){
-	GrafoL<DString,float> l;
+	GrafoL<char,int> GrafoL;
+	char A='A',B='B',C='C',D='D',E='E';
+	GrafoL.AddVertice(A);
+	GrafoL.AddVertice(B);
+	GrafoL.AddVertice(C);
+	GrafoL.AddVertice(D);
+	GrafoL.AddVertice(E);
+	
+	GrafoL.AddArista(A,B,false,4);
+	GrafoL.AddArista(A,C,false,5);
+	GrafoL.AddArista(B,E,false,6);
+	GrafoL.AddArista(C,E,false,1);
+	GrafoL.AddArista(E,D,false,8);
+	GrafoL.AddArista(D,A,false,1);
+	GrafoL.VerVertices();
+	GrafoL.VerAristas();;
+	PilaD<char> *p;
+	p=new PilaD<char>();
+	int Dis=GrafoL.AlgoritmoDijkstra(A,p);
+	return 0;
+}
+
+
+
+
+/*
+	GrafoL<DString,int> l;
 	DString  A="Venezuela",B="Colombia",C="Mexico",D="Brasil",E="Chile";
 		l.AddVertice(A);
 		l.AddVertice(B);
@@ -34,53 +60,15 @@ int main(){
 		std::cout<<"El grafo es conexo"<<std::endl;
 		else 
 		std::cout<<"El grafo es disconexo"<<std::endl;
-	return 0;
-}
+		
+		
+		int**mA=l.MAdyacencias();
+		
+		for(int i=0;i<5;i++){
+			for(int j=0;j<5;j++)
+				std::cout<<mA[i][j]<<" ";
+			std::cout<<std::endl;
+		}
 
-
-
-
-/*
-
-Grafo<DString,float> l(false,false);
-	DString  A="Venezuela",B="Colombia",C="Mexico",D="Brasil",E="Chile";
-	
-	l.AddVertice(A,(float)0);
-	l.AddVertice(B,(float)0);
-	l.AddVertice(C,(float)0);
-	l.AddVertice(D,(float)0);
-	l.AddVertice(E,(float)0);
-	
-	l.AddArista(A,B,1403.56);
-	l.AddArista(A,C,3589.04);
-	l.AddArista(A,D,3207.34);
-	l.AddArista(A,E,4899.02);
-	
-	l.AddArista(C,B,3170.37);
-	
-	l.AddArista(B,D,3218.83);
-	l.AddArista(B,E,6313.71);
-	
-	l.AddArista(D,E,2844.10);
-	
-	
-	
-	
-	
-//	l.VerVertices();
-	l.VerAristas();
-	std::cout<<"ANCHURA"<<std::endl;
-	l.Recorrido(A);
-	std::cout<<"PROFUNDIDAD "<<std::endl;
-	l.Recorrido(A,"Profundidad");
-	try
-	{
-		std::cout<<C<<" - "<<D<<" "<<l.Adyacente("cxcx",D);
-	
-	}catch(const char *e){
-		std::cerr<<e<<std::endl;
-	}
-	
-	
 
 */
