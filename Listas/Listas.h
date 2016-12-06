@@ -411,6 +411,17 @@ class ListaSEO:public ListaSE<T> {
 	private:
 	
 	public:
+		ListaSEO(bool band=true):ListaSE<T>(band){
+		
+		}
+		
+		ListaSEO(int size,bool band=true):ListaSE<T>(size,band)
+		{
+			
+		}
+		
+		
+		
 		void Add(T e,bool end=false){
 			
 			if(this->vacia() ){

@@ -8,11 +8,15 @@ const int INFINITO=INT_MAX/2;
 template<typename T,typename U=float>
 class Grafo;
 template<typename T,typename U=float>
-
 class GrafoL;
 template<typename T,typename U=float>
-
 class Arista;
+template<typename T,typename U=float>
+class Etiqueta;
+
+
+
+
 template <typename T,typename U>
 class Grafo{
 	typedef U* Carril;
@@ -253,6 +257,27 @@ class Arista{
 		}
 };
 
+
+template<typename T,typename U>
+class Etiqueta{
+	friend class  GrafoL<T,U>;
+	friend class  Grafo<T,U>;
+	private:
+		T Ant;
+		U DisA;
+		int itera;
+	public:
+		Etiqueta(){
+			this->DisA=0;
+			itera=0;
+		}
+		Etiqueta(T a,U b){
+			Ant=a;
+			DisA=b;
+			itera=0;
+		}
+	
+};
 template <typename T,typename U>
 class GrafoL{
 	typedef ListaSE< Arista<T,U> > ListaAristas;
@@ -393,7 +418,7 @@ class GrafoL{
 				
 		}
 		
-		void AlgoritmoFloyd(T partida){
+		void AlgoritmoFloyd(){
 			
 		}
 		int ** AlgoritmoWarshall(){
@@ -406,37 +431,47 @@ class GrafoL{
 			return mB;
 			
 		}
-		U AlgoritmoDijkstra(T partida,T destino, PilaD<T> *p=0){
+		
+		
+		U* AlgoritmoDijkstra(T partida,T destino){
 				int NVertices=this->Vertices->dim();
 				int posI=this->Vertices->Buscar(partida);
 				int posD=this->Vertices->Buscar(destino);
 				if(posI==-1 || posD==-1)
 				throw "No se encuentra un vertice";
 				bool *VecBool=new bool[NVertices];
+				U* DistanciasM=new U[NVertices];
 				for(int i=0;i<NVertices;i++){
-					VecBool[i]=false;
-					
+					DistanciasM[i]=this->Adyacente(partida,Vertices->Get(i),true);
+					VecBool[i]=false;	
 				}
 				VecBool[posI]=true;
-				U ret=0;
-				p->Put(partida);
-				ListaAristas *w=this->LAristas(Vertices->Get(posI));
-				for(int k=0;k<NVertices;k++){
-				
-					
-				
-				
-				
-				
-				
-					
+				DistanciasM[posI]=0;
+				for(int k=1;k<NVertices;k++){
+					U menor=(U)INFINITO;
+					int posMenor=0;	
+					for (int j = 0; j < NVertices; j++){
+					  	if (!VecBool[j] && (menor >= DistanciasM[j])){
+						         menor = DistanciasM[j];
+						         posMenor= j;
+						}
+					}
+					VecBool[posMenor]=true;	       
+    		        for (int w = 0; w < NVertices; w++){
+    		       		if (!VecBool[w]){
+		    		       	if (DistanciasM[posMenor] + this->Adyacente(Vertices->Get(posMenor),Vertices->Get(w),true) < DistanciasM[w]) {
+					               DistanciasM[w] = DistanciasM[posMenor] + this->Adyacente(Vertices->Get(posMenor),Vertices->Get(w),true);
+					            //aGRAGRA PI LA w=posMenor
+					        }
+						}
+				 	}
 				}
 			
 			
 			
 			
 			
-				return ret;
+				return DistanciasM;
 		}
 		//Retorna una matriz de adyacencia Booleana todo num diferente de cero lo vuelve 1
 		int ** MBooleana(){
@@ -472,7 +507,7 @@ class GrafoL{
 			return true;
 			
 		}
-		U Adyacente(T In,T Ll){
+		U Adyacente(T In,T Ll,bool as=false){
 			int posIn=this->Vertices->Buscar(In);
 			int posLl=this->Vertices->Buscar(Ll);
 			if(posIn==-1 || posLl==-1){
@@ -483,7 +518,7 @@ class GrafoL{
 			int p=w->Buscar( *(new Arista<T,U>(Ll,0)) );
 			
 			
-			return (p!=-1)? (w->Get(p)).Distancia:0;
+			return (p!=-1)? (w->Get(p)).Distancia:((as)?(U)INFINITO:0);
 			
 		}
 		Carril *MAdyacencias(bool Infinito=false){

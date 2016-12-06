@@ -7,24 +7,42 @@
 
 int main(){
 	GrafoL<char,int> GrafoL;
-	char A='A',B='B',C='C',D='D',E='E';
+	char A='A',B='B',C='C',D='D',E='E',F='F',G='G',H='H';
 	GrafoL.AddVertice(A);
 	GrafoL.AddVertice(B);
 	GrafoL.AddVertice(C);
 	GrafoL.AddVertice(D);
 	GrafoL.AddVertice(E);
+	GrafoL.AddVertice(F);
+	GrafoL.AddVertice(G);
+	GrafoL.AddVertice(H);
 	
-	GrafoL.AddArista(A,B,false,4);
-	GrafoL.AddArista(A,C,false,5);
-	GrafoL.AddArista(B,E,false,6);
-	GrafoL.AddArista(C,E,false,1);
-	GrafoL.AddArista(E,D,false,8);
-	GrafoL.AddArista(D,A,false,1);
+	GrafoL.AddArista(A,B,true,3);
+	GrafoL.AddArista(A,C,true,1);
+
+	GrafoL.AddArista(B,D,true,1);
+	GrafoL.AddArista(B,G,true,5);
+
+	GrafoL.AddArista(C,F,true,5);
+	GrafoL.AddArista(C,D,true,2);
+	
+	GrafoL.AddArista(D,F,true,2);
+	GrafoL.AddArista(D,E,true,4);
+	
+	GrafoL.AddArista(G,E,true,2);
+	GrafoL.AddArista(F,H,true,3);
+	GrafoL.AddArista(E,H,true,1);
+	
+	
+	
+
 	GrafoL.VerVertices();
 	GrafoL.VerAristas();;
 	PilaD<char> *p;
 	p=new PilaD<char>();
-	int Dis=GrafoL.AlgoritmoDijkstra(A,p);
+	int *Dis=GrafoL.AlgoritmoDijkstra(A,B);
+	for(int i=0;i<8;i++)
+		std::cout<<Dis[i]<<std::endl;
 	return 0;
 }
 
