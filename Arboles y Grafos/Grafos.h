@@ -216,67 +216,45 @@ class Grafo{
 			this->Aristas->Delete(pNe);
 			this->CantV--;			
 		}		
-		
-		
-		
-		
-		
 };
-
 template <typename T,typename U>
 class Arista{
 	friend class  GrafoL<T,U>;
 	friend class  Grafo<T,U>;
 		private:
+			T Origen;
 			T Destino;
 			U Distancia;
 		public:
-			Arista(){
-				
-			}
-			Arista(T De,U Di){
+		Arista(){		
+		}
+		Arista(T De,U Di){
 				this->Destino=De;
 				this->Distancia=Di;
-			}
-			
-			
+		}	
 		bool operator ==(const Arista<T,U>&w){
 			return this->Destino==w.Destino;	
-		}	
-			
-			
-					
+		}
+		bool operator >=(const Arista<T,U>&w){
+			return this->Distancia>=w.Distancia;
+		}
+		bool operator >(const Arista<T,U>&w){
+			return this->Distancia>w.Distancia;
+		}
+		bool operator <=(const Arista<T,U>&w){
+			return this->Distancia<=w.Distancia;
+		}
+		bool operator <(const Arista<T,U>&w){
+			return this->Distancia<w.Distancia;
+		}			
 		friend std::ostream& operator << (std::ostream &o,const Arista<T,U> &p){
 	    o<<"(Destino:"<<p.Destino<<",Distancia:"<<p.Distancia<<")";
 	    return o;
 		}
-		
 		friend std::ostream& operator << (std::ostream &o,const Arista<T,U> *p){
 		o<<"(Destino:"<<p->Destino<<",Distancia:"<<p->Distancia<<")";
 	    return o;
 		}
-};
-
-
-template<typename T,typename U>
-class Etiqueta{
-	friend class  GrafoL<T,U>;
-	friend class  Grafo<T,U>;
-	private:
-		T Ant;
-		U DisA;
-		int itera;
-	public:
-		Etiqueta(){
-			this->DisA=0;
-			itera=0;
-		}
-		Etiqueta(T a,U b){
-			Ant=a;
-			DisA=b;
-			itera=0;
-		}
-	
 };
 template <typename T,typename U>
 class GrafoL{
@@ -332,7 +310,6 @@ class GrafoL{
 			Vertices=new ListaSE<T>(false);
 			this->Aristas= new ListaSE< ListaAristas *>(false);
 			}
-		
 		void AddVertice(T ver){
 			this->Vertices->Add(ver,true);
 			this->Aristas->Add(new ListaAristas(false),true);
@@ -351,7 +328,6 @@ class GrafoL{
 		void VerVertices(){
 			std::cout<<this->Vertices<<std::endl;			
 		}
-		
 		void VerArista(T In){
 			try{
 				std::cout<<LAristas(In)<<std::endl;
@@ -395,8 +371,7 @@ class GrafoL{
 				w->Delete(w->Buscar( *(new Arista<T,U>(lL,0) ) ));
 			}
 			
-		}
-		
+		}	
 		void Recorrido(T N,DString mode="Anchura",bool *as=0){
 			int posN=this->Vertices->Buscar(N);
 			if(posN==-1)
@@ -418,35 +393,127 @@ class GrafoL{
 				
 		}
 		
-		void AlgoritmoFloyd(){
-			
+		T obtVertice(int i){
+			return this->Vertices->Get(i);
+		}
+		
+		
+		int CantV(){
+			return this->Vertices->dim();
+		}
+		Carril* AlgoritmoFloyd(){
+			Carril*retornar=this->MAdyacencias(true);
+			for(int i=0;i<this->CantV();i++)
+				retornar[i][i]=0;
+			for(int k=0;k<this->CantV();k++){
+				for(int i=0;i<this->CantV();i++){
+					for(int j=0;j<this->CantV();j++){
+						if( (retornar[i][k] + retornar[k][j]) < retornar[i][j]){
+							retornar[i][j]=(retornar[i][k] + retornar[k][j]);
+						}
+					}						
+				}
+			}
+			return retornar;
 		}
 		int ** AlgoritmoWarshall(){
 			int **mB=this->MBooleana();
-			  for (int k = 0; k < this->Vertices->dim(); k++)
-   				 for (int i = 0; i < this->Vertices->dim(); i++)
+			  for (int k = 0; k < this->Vertices->dim(); k++){
+			  	 for (int i = 0; i < this->Vertices->dim(); i++)
     				  for (int j = 0; j < this->Vertices->dim(); j++)
     				        if (mB[i][k] * mB[k][j])
-          							mB[i][j]=1;
+          							mB[i][j]=1;					
+			  }
+   				
 			return mB;
 			
 		}
 		
 		
-		U* AlgoritmoDijkstra(T partida,T destino){
+		
+		
+		GrafoL<T,U>* AlgoritmoPrim(){
+			int cantV=this->Vertices->dim();
+			GrafoL<T,U>* Arbol=new GrafoL<T,U>();
+			ListaSEO<Arista<T,U> > cPo(false);
+			ListaSE<T> pos_cPo;
+			bool *vecBool=new bool[cantV];
+			for(int i=0;i<cantV;i++){
+				vecBool[i]=false;
+				
+			}
+			
+			/*
+			this->Aristas= new ListaSE< ListaAristas *>(false);
+			this->Aristas->Add(new ListaAristas(false),true);
+			*/
+			T v1=this->Vertices->Get(0);
+			vecBool[0]=true;
+			Arbol->AddVertice(v1);
+			 ListaAristas *w =this->LAristas(this->Vertices->Get(0));
+			 for(int i=0;i<w->dim();i++){
+			 	cPo.Add(w->Get(i));
+			 	pos_cPo.AddP(this->Vertices->Get(),cPo.Buscar(w->Get(i)));
+			 }
+			 //cPo.visualizar();
+			// pos_cPo.visualizar();
+		
+			int posI=0;
+			while(!cPo.vacia()){
+				int listo=0;
+				for(int i=0;i<cantV;i++)
+					listo+=vecBool[i];
+				if(listo==cantV)
+					break;	
+					
+				Arista<T,U> ext=cPo.Get(0);
+				cPo.Delete(0);
+				T pos_i=pos_cPo.Get(0);
+				Arbol->AddVertice(pos_i);
+				pos_cPo.Delete(0);
+				if(!vecBool[this->Vertices->Buscar(ext.Destino)]){
+					vecBool[this->Vertices->Buscar(ext.Destino)]=true;
+					Arbol->AddVertice(ext.Destino);
+					Arbol->AddArista(pos_i,ext.Destino,true,ext.Distancia);
+					ListaAristas *extW =this->LAristas(this->Vertices->Get(this->Vertices->Buscar(ext.Destino)));
+					pos_cPo.dim();
+					for(int i=0;i<extW->dim();i++){
+						if(!vecBool[this->Vertices->Buscar( (extW->Get(i)).Destino )]){
+							cPo.Add(extW->Get(i));
+							int posQQQ=cPo.Buscar(extW->Get(i));
+			 				pos_cPo.AddP(ext.Destino, posQQQ );	
+						}	
+					}
+				//	cPo.visualizar();
+				//	pos_cPo.visualizar();	
+				}			
+			}
+			return Arbol;
+		}
+		//Retorna todas las distancias minimas de un vertice a todos los demas conectados a el 
+		// Warning this funtion throw const char* exce
+		U* AlgoritmoDijkstra(T partida,U *p=0){
 				int NVertices=this->Vertices->dim();
 				int posI=this->Vertices->Buscar(partida);
-				int posD=this->Vertices->Buscar(destino);
-				if(posI==-1 || posD==-1)
+				if(posI==-1)
 				throw "No se encuentra un vertice";
 				bool *VecBool=new bool[NVertices];
 				U* DistanciasM=new U[NVertices];
 				for(int i=0;i<NVertices;i++){
+					
 					DistanciasM[i]=this->Adyacente(partida,Vertices->Get(i),true);
 					VecBool[i]=false;	
+					if(p!=0){
+						p[i]=(U)-1;
+						if(DistanciasM[i]!=(U)INFINITO)
+						p[i]=posI;
+					}
 				}
 				VecBool[posI]=true;
 				DistanciasM[posI]=0;
+				if(p!=0){
+					p[posI]=posI;
+				}
 				for(int k=1;k<NVertices;k++){
 					U menor=(U)INFINITO;
 					int posMenor=0;	
@@ -461,17 +528,35 @@ class GrafoL{
     		       		if (!VecBool[w]){
 		    		       	if (DistanciasM[posMenor] + this->Adyacente(Vertices->Get(posMenor),Vertices->Get(w),true) < DistanciasM[w]) {
 					               DistanciasM[w] = DistanciasM[posMenor] + this->Adyacente(Vertices->Get(posMenor),Vertices->Get(w),true);
-					            //aGRAGRA PI LA w=posMenor
+					            	if(p!=0){
+					            		p[w]=posMenor;
+									}
 					        }
 						}
 				 	}
+				 	
 				}
-			
-			
-			
-			
-			
 				return DistanciasM;
+		}
+		
+		void ConstruirRutaMinima(T aE,T lL){
+			
+			U *v=new U[this->Vertices->dim()];
+			
+			
+			this->AlgoritmoDijkstra(aE,v);
+			std::cout<<lL<<"->";
+			int pos=	v[this->Vertices->Buscar(lL)];
+				
+			while(pos!=this->Vertices->Buscar(aE)){
+				T alpha=this->Vertices->Get(pos);
+				std::cout<<alpha<<"->";
+				pos=v[this->Vertices->Buscar(alpha)];
+			}
+			
+			std::cout<<aE<<std::endl;
+			
+			
 		}
 		//Retorna una matriz de adyacencia Booleana todo num diferente de cero lo vuelve 1
 		int ** MBooleana(){
@@ -542,7 +627,6 @@ class GrafoL{
 			}
 			return aux;
 		}
-		
 };
 
 

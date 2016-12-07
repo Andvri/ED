@@ -99,7 +99,7 @@ class ListaSE{
 		 Utilizar true para add al final
 		 Predefinido add al inicio
 		*/
-		void Add(T e,bool end=false){
+		void Add(T e,int end=false){
 			
 			if(vacia()){
 				addVacia(e);
@@ -199,7 +199,7 @@ class ListaSE{
 			
 		}
 		
-		void Add(T e,int  Pos){
+		void AddP(T e,int  Pos){
 			
 			if(vacia()){
 				addVacia(e);
@@ -407,22 +407,160 @@ class ListaSE{
 };
 
 template <typename T>
-class ListaSEO:public ListaSE<T> {
-	private:
-	
-	public:
-		ListaSEO(bool band=true):ListaSE<T>(band){
+class ListaSEO {
+	protected:
+		Nodo<T> *cabeza;//Apunta al inicio de la lista
+		Nodo<T> *cola;//Apunta al ultimo elemento de la lista
+		size_t size;//Indica la cantidad de elementos de la lista
 		
-		}
 		
-		ListaSEO(int size,bool band=true):ListaSE<T>(size,band)
-		{
+		
+		void addVacia(){
+			this->cabeza=new Nodo<T>();
+			this->cola=this->cabeza;this->size++;
 			
 		}
+		void addVacia(T e){
+			this->cabeza=new Nodo<T>(e);
+				this->cola=this->cabeza;this->size++;
+			
+		}
+		void addF(){
+			this->cabeza=new Nodo<T>(this->cabeza);
+			this->size++;
+			
+		}
+		void addF(T e){
+			this->cabeza=new Nodo<T>(e,this->cabeza);
+			this->size++;
+			
+		}
+		void addE(T e){
+			Nodo<T>*aux=new Nodo<T>(e);
+			this->cola->siguiente(aux);
+			this->cola=this->cola->siguiente();
+			this->size++;
+		}
+	public:
+		/*
+		Constructor Base para lista vacia
+		*/
+		ListaSEO(bool band=true){
+			this->cabeza=this->cola=0;
+			this->size=0;
 		
+		}
+		ListaSEO(int size){
+			this->cabeza=this->cola=0;
+			this->size=size;
+			this->generarNodos(size);
 		
+		}
+		ListaSEO(const T*v,int size){
+			this->cabeza=this->cola=0;
+			
+			
+			for(int i=0;i<size;i++)
+			this->Add(v[i],true);
+		}
+		ListaSEO(int size,T obj){
+			this->cabeza=this->cola=0;
+			this->size=size;
+			this->generarNodos(size,obj);
 		
-		void Add(T e,bool end=false){
+		}	
+		void visualizar(){
+			Nodo<T> *prueba=this->cabeza;
+			for(int a=0;a<size;a++){
+				if(a%10==0)
+				std::cout<<std::endl;
+				std::cout<<(a)<<")"<<prueba->datNodo()<<" ";
+				prueba=prueba->siguiente();	
+			}
+		}
+		bool vacia(){
+			return !(this->size);
+		}
+		unsigned int dim(){
+			return this->size;
+		}
+		void Delete(int pos=0 ){
+			
+			if(pos<0 ||  pos>this->size-1 )	
+				return;
+			
+					
+			Nodo<T>*aux=this->cabeza;
+			if(!pos){
+				
+				this->cabeza=this->cabeza->siguiente();
+				delete aux;
+				this->size--;
+
+				return;				
+			}
+			
+			
+			
+			
+			
+			aux=this->cabeza;
+			for(int i=0;i<pos-1;i++){
+				aux=aux->siguiente();				
+			}
+			Nodo<T>*aux2=aux->siguiente();
+			aux->siguiente(aux2->siguiente());
+			if(this->size-1==pos)
+			this->cola=aux;
+			
+			delete aux2;
+			this->size--;
+			
+
+		}	
+		T Get(int pos=0) const{
+			T obj;
+			if(pos<0 ||  pos>=this->size )	
+				return obj;
+			
+			if(!pos)
+			return this->cabeza->datNodo();
+			
+			Nodo<T> *aux=this->cabeza;
+
+			for(int i=0;i<pos;i++)
+			aux=aux->siguiente();
+			
+			return aux->datNodo();
+			
+		}
+		T* getArray()const{
+				T *array;
+				array=new T[this->size];
+				Nodo<T>*aux=this->cabeza;
+				
+				for(int i=0;i<this->size;i++){
+					array[i]=aux->datNodo();	
+					aux=aux->siguiente();
+					
+				}
+				return array;
+		}
+		int Buscar(T bus){
+			
+			Nodo<T> *prueba=this->cabeza;
+			for(int a=0;a<size;a++){
+				if(bus==prueba->datNodo()){
+
+					return a;
+				}
+					prueba=prueba->siguiente();	
+				
+			}
+			
+			return -1;
+		}
+		void Add(T e){
 			
 			if(this->vacia() ){
 				this->addVacia(e);
